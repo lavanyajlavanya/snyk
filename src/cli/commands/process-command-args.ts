@@ -1,4 +1,5 @@
 import { Options } from '../../lib/types';
+import { MissingArgError } from '../../lib/errors';
 
 export function processCommandArgs<CommandOptions>(
   ...args
@@ -10,8 +11,12 @@ export function processCommandArgs<CommandOptions>(
   }
   args = args.filter(Boolean);
 
-  // populate with default path (cwd) if no path given
   if (args.length === 0) {
+    // For Docker image scanning, image name has to be provided
+    if (options.docker) {
+        throw new MissingArgError('\'container\'', 'an image');
+    }
+    // For repository scanning, populate with default path (cwd) if no path given
     args.unshift(process.cwd());
   }
 
