@@ -37,9 +37,9 @@ export async function showResultsSummary(
     resultsByPlugin,
     exceptionsByScanType,
   );
-  const fixedIssuesSummary = `${chalk.bold(
-    calculateFixedIssues(resultsByPlugin),
-  )} fixed issues`;
+  const fixedIssueCount = calculateFixedIssues(resultsByPlugin);
+  const fixedIssuesSummary =
+    fixedIssueCount > 0 ? `${chalk.bold(fixedIssueCount)} fixed issues` : '';
   const getHelpText = `\n${reTryMessage}. ${contactSupportMessage}`;
 
   const fixSummary = `\n${successfulFixesSummary}${
